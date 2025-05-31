@@ -98,7 +98,7 @@ En la carpeta `deployment/` se encuentran los siguientes archivos:
 - Facilitar la reproducción de resultados agregando ejemplos de uso y muestras de datos en el README
 
 ## Licencia y Contacto
-- **Licencia:** MIT License  
+- **Licencia:** Commons Clause + MIT / Apache 2.0
 - **Equipo:**
   - [Jhonathan Pauca](mailto:jhonathan.pauca@unmsm.edu.pe), [jhonmetal](https://github.com/jhonmetal/)
   - [Fernando Flores](mailto:fernando.floresr@unmsm.edu.pe), [fnfloresra](https://github.com/fnfloresra)
