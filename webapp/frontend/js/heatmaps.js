@@ -10,7 +10,6 @@
     }).addTo(map);
 
     // Global variables to store data and control state
-    const API_BASE_URL = window.env.API_URL;
     let allData = []; // Stores all loaded anomaly data
     let filteredData = []; // Stores data after applying filters (date, etc.)
     let timeAxis = []; // Array of unique sorted timestamps for the date slider
@@ -50,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadJSONData(dateStr) {
   try {
-    const response = await fetch(`${API_BASE_URL}uber-trips/values`, {
+    const response = await fetch(`${window.env.API_URL}/api/uber-trips/values`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ date_code: dateStr })
@@ -130,7 +129,7 @@ async function cargarIndicadores(dateStr) {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}uber-trips/indicators`, {
+    const response = await fetch(`${window.env.API_URL}/api/uber-trips/indicators`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -195,7 +194,7 @@ async function cargarHistoryEvents(dateStr) {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}uber-trips/history_events`, {
+    const response = await fetch(`${window.env.API_URL}/api/uber-trips/history_events`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ date_code: dateStr })
