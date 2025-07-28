@@ -1,0 +1,208 @@
+:root {
+  --primary: #0d6efd;
+  --secondary: #6c757d;
+  --dark: #212529;
+  --light: #f8f9fa;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --success: #198754;
+  --radius: 12px;
+  --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.1);
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.3s ease;
+}
+
+/* Hero Section */
+.hero-section, .hero-header {
+  background: linear-gradient(135deg, #1a2980, #26d0ce);
+  color: white;
+  padding: 20px 0;
+  /*position: relative;
+  overflow: hidden;*/
+}
+
+.hero-section::before {
+  content: "";
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='0,0 100,100 0,100' fill='rgba(255,255,255,0.1)'/></svg>");
+  background-size: 100% 100%;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(to right, #1a2980, #26d0ce);
+  border: none;
+  padding: 12px 30px;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+}
+.leaflet-control {
+  display: none !important;
+}
+
+/* Cards */
+.stats-card {
+  background: var(--light);
+  padding: 0.1rem;
+  border-radius: var(--radius);
+  text-align: center;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-light);
+}
+
+.stats-card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-medium);
+}
+
+.stats-number {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1e5695;
+}
+
+/* Tooltip */
+.tooltip-hover {
+  position: relative;
+  cursor: help;
+  /*display: inline-block;*/
+}
+
+.tooltip-hover .tooltip-text {
+  visibility: hidden;
+  background-color: var(--dark);
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 8px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -110px;
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+  width: 220px;
+  font-size: 0.85rem;
+  line-height: 1.2rem;
+}
+
+.tooltip-hover:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Feature Cards */
+.feature-card {
+  border-radius: 15px;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  overflow: hidden;
+  border: none;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: #1e5695;
+  margin-bottom: 20px;
+}
+
+/* Map Preview */
+.map-preview {
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(45deg, #1a2a6c, #b21f1f, #1a2a6c);
+  box-shadow: var(--shadow-medium);
+  transition: transform var(--transition-smooth);
+  height: 300px;
+}
+
+.map-preview:hover {
+  transform: scale(1.03);
+}
+
+.heat-point {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,0,0,0.8) 0%, rgba(255,0,0,0) 70%);
+  transform: translate(-50%, -50%);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%  { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+}
+
+/* Hexagon */
+.hexagon {
+  width: 100px;
+  height: 100px;
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+}
+
+.hexagon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* About Section */
+#about ul li::before {
+  content: "• ";
+  color: var(--primary);
+  font-weight: bold;
+}
+
+#about .card {
+  border-radius: var(--radius);
+}
+
+/* Footer */
+footer {
+  background: var(--dark);
+  color: white;
+  padding: 1rem 0;
+}
+
+/* Border effect */
+.gradient-border {
+  position: relative;
+  padding: 30px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #1a2980, #26d0ce);
+  border-radius: 17px;
+  z-index: -1;
+}
