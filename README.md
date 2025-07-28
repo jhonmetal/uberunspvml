@@ -37,7 +37,7 @@ graph TD
         MET[Metrics Adapter]
     end
     subgraph API
-        API[FastAPI Server]
+        APISRV[FastAPI Server]
     end
     subgraph Dashboard
         DASH[Streamlit Dashboard]
@@ -56,15 +56,15 @@ graph TD
     SVC --> ML
     SVC --> STG
     SVC --> MET
-    API --> SVC
-    DASH --> API
+    APISRV --> SVC
+    DASH --> APISRV
     FRONT --> USERAPP
-    USERAPP --> API
-    DEVAPP --> API
-    LAMBDA --> API
+    USERAPP --> APISRV
+    DEVAPP --> APISRV
+    LAMBDA --> APISRV
     LAMBDA --> S3
-    API --> ML
-    API --> MET
+    APISRV --> ML
+    APISRV --> MET
 ```
 
 ---
@@ -146,4 +146,3 @@ Para dudas o contribuciones, revisa los archivos fuente y la documentación incl
   - [Melissa Rodriguez](mailto:melissa.rodriguezs@unmsm.edu.pe), [Melissadrrs](https://github.com/Melissadrrs)
   - [Heber Hualpa](mailto:heber.hualpa@unmsm.edu.pe), [hheber](https://github.com/hheber/)
   - [Marco Candia](mailto:marco.candia@unmsm.edu.pe)
-  
