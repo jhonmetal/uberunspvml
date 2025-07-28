@@ -250,11 +250,11 @@
 } 
 
 .alert-small {
-    font-size: 1.2em;
+    font-size: 0.9rem;
 }
 .alert-strong {
     font-weight: bolder;
-    font-size: 1.3rem;
+    font-size: .9rem;
 }
 
 /* Tooltip */

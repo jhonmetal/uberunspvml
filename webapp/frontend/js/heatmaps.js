@@ -10,6 +10,7 @@
     }).addTo(map);
 
     // Global variables to store data and control state
+    const API_BASE_URL = window.env.API_URL;
     let allData = []; // Stores all loaded anomaly data
     let filteredData = []; // Stores data after applying filters (date, etc.)
     let timeAxis = []; // Array of unique sorted timestamps for the date slider
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   rangeHour.addEventListener("input", () => {
-    rangeHourValue.textContent = rangeHour.value;
+    rangeHourValue.textContent = rangeHour.value+':00';
     applyFilters();
   });
 });
@@ -48,10 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     async function loadJSONData(dateStr) {
-    //console.log("🚀 Ejecutando función loadJSONData()");
-   // console.log("📅 Solicitando datos para la fecha:", dateStr);
   try {
-    const response = await fetch(`${window.env.API_URL}/api/uber-trips/values`, {
+    const response = await fetch(`${API_BASE_URL}uber-trips/values`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ date_code: dateStr })
@@ -131,7 +130,7 @@ async function cargarIndicadores(dateStr) {
   }
 
   try {
-    const response = await fetch(`${window.env.API_URL}/api/uber-trips/indicators`, {
+    const response = await fetch(`${API_BASE_URL}uber-trips/indicators`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -196,17 +195,14 @@ async function cargarHistoryEvents(dateStr) {
   }
 
   try {
-    const response = await fetch(`${window.env.API_URL}/api/uber-trips/history_events`, {
+    const response = await fetch(`${API_BASE_URL}uber-trips/history_events`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ date_code: dateStr })
     });
 
-  //  console.log("📤 Enviando a history_events:", JSON.stringify({ date_code: dateStr }));
-
     if (!response.ok) {
       const errorData = await response.json();
-   //   console.error('📥 Error del servidor:', errorData);
       throw new Error('Error al obtener los indicadores');
     }
 
@@ -215,17 +211,27 @@ async function cargarHistoryEvents(dateStr) {
 
 
     const container = document.getElementById('historyEventsContainer');
+
     container.innerHTML = ''; // Limpiar contenido anterior
 
     if (!result || !Array.isArray(result) || result.length === 0) {
       container.innerHTML = '<p class="text-muted">No se encontraron eventos históricos para esta fecha.</p>';
       return;
     }
+if (result.length > 0) {
+  // Ordenar por fecha (por si acaso)
+  result.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const fechaInicio = result[0].date;
+  const fechaFinal = result[result.length - 1].date;
+
+  const indicadors = document.getElementById('indicadors');
+  indicadors.innerText = `(Actualizado el período: ${fechaInicio} - ${fechaFinal})`;
+}
 
 result.forEach(event => {
   const item = document.createElement('div');
   item.className = 'anomaly-alert d-flex tooltip-hover justify-content-between align-items-center mb-2 p-3 rounded shadow-sm border border-light bg-white';
-
   item.innerHTML = `
    <div class="tooltip-text">Fecha en la que se detectaron anomalías en la demanda.</div>
     <div>
@@ -256,7 +262,7 @@ result.forEach(event => {
 
 function applyFilters() {
  rangeHour = document.getElementById("range-hour");
- rangeHourValue = document.getElementById("range-hour-value");
+
 
   const selectedHour = parseInt(rangeHour.value);
     filteredData = allData.filter(d => d.timestamp.getHours() === selectedHour);
@@ -296,7 +302,7 @@ function applyFilters() {
     maxZoom: 10,
     max: 8,
     blur: 8,
-    gradient: { 0.2: 'blue', 0.8: 'lime', 1.0: 'yellow' },
+    gradient: { 0.4: 'blue', 0.6: 'lime', 0.8: 'yellow', 1.0: 'orange' },
     opacity: opacity
   }).addTo(map);
 
@@ -306,7 +312,8 @@ function applyFilters() {
     maxZoom: 10,
     max: 8,
     blur: 8,
-    gradient: { 0.4: 'red', 0.6: 'red', 0.1: 'red' },
+ 
+      gradient: { 0.3: 'orange', 0.6: 'red', 1.0: 'red' },
     opacity: opacity
   }).addTo(map);
 
