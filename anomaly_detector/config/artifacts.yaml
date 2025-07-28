@@ -1,0 +1,6 @@
+# Artifact file paths for anomaly detection pipeline
+preproc_path: spatial_preprocessor.pkl
+scaler_path: scaler.pkl
+curves_csv: mv_em_curves.csv
+sample_csv: processed_data_sample.csv
+indicators_parquet: indicators.parquet
