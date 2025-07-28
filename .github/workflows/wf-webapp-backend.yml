@@ -1,0 +1,46 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: 
+      - develop
+      - main
+      - feature/webapp
+    paths:
+      - 'webapp/**' 
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar credenciales AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set imagen name
+        run: |
+          echo "image=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: docker build -f webapp/backend/Dockerfile -t $image:latest .
+
+      - name: Push Docker image
+        run: docker push $image:latest
+
+      - name: Verificar imagen generada
+        run: echo "Imagen generada y enviada a ECR $image:latest"
+
+      - name: Actualizar Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name ${{ secrets.LAMBDA_REPOSITORY }} \
+            --image-uri $image:latest

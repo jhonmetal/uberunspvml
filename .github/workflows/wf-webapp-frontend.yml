@@ -1,0 +1,39 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches: 
+      - develop
+      - main
+      - feature/webapp
+    paths:
+      - 'webapp/**' 
+
+jobs:
+  load-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar credenciales AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Descargar archivo env.js desde S3
+        run: |
+          mkdir -p webapp/frontend
+          aws s3 cp s3://${{ secrets.S3_BUCKET }}/code-deploy/env.js webapp/frontend/env.js
+
+      - name: Verificar contenido de env.js
+        run: cat webapp/frontend/env.js
+
+      - name: Subir sitio web a S3
+        run: |
+          aws s3 sync webapp/frontend/ s3://${{ secrets.STATIC_WEB_REPOSITORY }} \
+            --delete \
+            --cache-control max-age=3600,public

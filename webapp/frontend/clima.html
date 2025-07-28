@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard con Clima</title>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    #map { height: 500px; }
+    .weather-legend {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <script src="env.js"></script>
+  <div id="map"></div>
+  
+  <!-- Controles de clima -->
+  <div class="controls">
+    <div>
+      <label for="weather-toggle">
+        <input type="checkbox" id="weather-toggle" checked> 
+        Mostrar Clima
+      </label>
+    </div>
+    
+    <div id="weather-controls" style="display:block">
+      <label for="weather-type">Tipo de Mapa:</label>
+      <select id="weather-type">
+        <option value="clouds_new">Nubes</option>
+        <option value="precipitation_new">Precipitación</option>
+        <option value="temp_new">Temperatura</option>
+        <option value="wind_new">Viento</option>
+      </select>
+      
+      <label for="weather-opacity">Opacidad: <span id="weather-opacity-value">50</span>%</label>
+      <input type="range" id="weather-opacity" min="0" max="100" value="50">
+    </div>
+  </div>
+  
+  <div id="weather-legend" class="weather-legend">
+    <h4>Leyenda del Clima</h4>
+    <div id="legend-content"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+
+    
+    // 1. INICIALIZAR EL MAPA PRIMERO
+  
+        const map = L.map('map').setView([40.7128, -74.0060], 12); // Center on New York with zoom 12
+    
+    // Capa base de OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    // 2. AHORA LAS VARIABLES DE CLIMA
+    let weatherLayer;
+    let isWeatherEnabled = true;
+    let weatherMapType = 'clouds_new';
+    let weatherOpacity = 0.5;
+    const WEATHER_API_KEY = 'd7b2e0065713d9f51685eb4cf9a46552';
+
+    // 3. FUNCIONES DE CLIMA
+    function loadWeatherLayer() {
+      return L.tileLayer(
+        
+        `https://tile.openweathermap.org/map/${weatherMapType}/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`, 
+        {
+          attribution: '© OpenWeatherMap',
+          opacity: weatherOpacity,
+          maxZoom: 19,
+          tileSize: 256,
+          zIndex: 500
+        }
+      );
+    }
+
+    function updateWeatherLayer() {
+      if (weatherLayer) map.removeLayer(weatherLayer);
+      
+      try {
+        weatherLayer = loadWeatherLayer().addTo(map);
+        if (window.heatmapLayer) {
+          window.heatmapLayer.bringToFront();
+        }
+      } catch (error) {
+        console.error('Error cargando capa de clima:', error);
+        alert('Error cargando datos meteorológicos. Verifica tu API key y suscripción.');
+      }
+    }
+
+    // 4. INICIALIZAR CLIMA
+    updateWeatherLayer();
+
+    // 5. EVENT LISTENERS
+    document.addEventListener('DOMContentLoaded', function() {
+      const weatherToggle = document.getElementById('weather-toggle');
+      const weatherTypeSelect = document.getElementById('weather-type');
+      const weatherOpacityControl = document.getElementById('weather-opacity');
+      const weatherOpacityValue = document.getElementById('weather-opacity-value');
+      
+      if (weatherToggle) {
+        weatherToggle.addEventListener('change', function() {
+          isWeatherEnabled = this.checked;
+          if (isWeatherEnabled) {
+            updateWeatherLayer();
+          } else if (weatherLayer) {
+            map.removeLayer(weatherLayer);
+          }
+        });
+      }
+      
+      if (weatherTypeSelect) {
+        weatherTypeSelect.addEventListener('change', function() {
+          weatherMapType = this.value;
+          if (isWeatherEnabled) updateWeatherLayer();
+        });
+      }
+      
+      if (weatherOpacityControl) {
+        weatherOpacityControl.addEventListener('input', function() {
+          weatherOpacity = this.value / 100;
+          weatherOpacityValue.textContent = this.value;
+          if (weatherLayer) weatherLayer.setOpacity(weatherOpacity);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

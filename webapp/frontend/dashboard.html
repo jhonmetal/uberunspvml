@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de Anomalías mapa de calor</title>
+
+   <script src="https://unpkg.com/h3-js"></script>
+  <!-- Leaflet CSS for mapping functionalities -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <!-- Chart.js for data visualization -->
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Bootstrap CSS for styling and responsiveness -->
+  <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/styles.css" />
+      <!-- Bootstrap 5 CSS -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/landing-page.css">
+ 
+
+
+</head>
+<body>
+<script src="env.js"></script>
+<nav class="navbar navbar-expand-lg navbar-dark hero-header sticky-top shadow-sm py-3">
+  <div class="container-fluid position-relative">
+
+<!-- Logo a la izquierda (oculto en pantallas pequeñas) -->
+<a class="navbar-brand d-none d-lg-flex align-items-center" href="index.html">
+ <i class="fas fa-brain me-2"></i>
+ <span class="fw-bold">Taxi Anomaly Detector</span>
+</a>
+
+
+    <!-- Botón hamburguesa en móviles -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+<!-- Título centrado y responsivo -->
+<div class="position-absolute top-50 start-50 translate-middle text-center">
+  <h1 class="text-light fw-bold m-0 title-responsive">
+    Dashboard de Detección de Anomalías
+  </h1>
+</div>
+
+
+
+
+
+    <!-- Menú a la derecha -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="index.html">
+            <i class="fas fa-home me-1"></i>Inicio
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+
+<div class="container-fluid px-3 px-md-4 mt-3">
+  <div class="row g-4">
+    <div class="col-12 col-lg-7">
+  <div class="stats-filter">
+    <div class="stat-card">
+ 
+  <div class="row g-2 align-items-start">
+    <div class="col-12 col-lg-4">
+             <h5 class="fw-bold mb-0">Periodo de Análisis:</h5>
+    </div>
+    
+    <!-- Fecha -->
+    <div class="col-12 col-lg-1">
+       <label for="date-value" class="form-label mb-0 small">Fecha</label>
+    </div>
+        <div class="col-12 col-lg-3">
+      <input type="date" class=" form-control-sm" id="date-value" name="date-value" required>
+    </div>
+
+
+    <!-- Hora -->
+ <div class="col-12 col-lg-2">
+  <label for="range-hour" class="form-label mb-0 small">
+    Hora: <span id="range-hour-value">00</span>
+  </label>
+</div>
+
+<div class="col-12 col-lg-2 tooltip-hover">
+  <input type="range" class="custom-range" id="range-hour" min="0" max="23" value="0">
+ <!-- <div class="tooltip-text">Filtro por hora del dia</div> -->
+</div>
+
+    
+
+  </div>
+      
+    </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h6 class="card-title text-center fw-bold mb-0">Mapa de Calor</h6>
+  
+</div>
+<div class="dashboard-container">
+    <div class="map-container">
+      <div id="map"></div>
+        <!-- Controles de clima -->
+  <div class="controls"><div>
+
+<div class="d-flex align-items-center gap-2">
+  <label class="form-check-label mb-0" for="weather-toggle"><input class="form-check-input me-2" type="checkbox" id="weather-toggle" checked>Mostrar Clima</label>
+</div>
+
+  <!-- Selector de Mapa -->
+   <!--
+  <div class="d-flex align-items-center gap-2">
+    <label for="map-type" class="mb-0">Tipo de Mapa:</label>
+    <select id="map-type" class="form-select form-select-sm w-auto">
+      <option value="clouds_new">Nubes</option>
+      <option value="precipitation_new">Precipitación</option>
+      <option value="temp_new">Temperatura</option>
+      <option value="wind_new">Viento</option>
+    </select>
+  </div> 
+-->
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+
+    <!--
+      <div class="card">
+         <div class="card-body">
+          <h3 class="card-title text-center fw-bold mb-0 gradient-title">Distribución por Tipo</h3>
+
+        <div class="chart-container">
+          <canvas id="distributionChart"></canvas>
+        </div></div>
+      </div> -->
+
+            <div class="card">
+                 <div class="card-body">
+          <h3 class="card-title text-center fw-bold mb-0 gradient-title">Últimas Alertas del Día</h3>
+        <div id="alert-list">
+          <!-- Las alertas se generarán dinámicamente -->
+        </div>
+      </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+  <div class="col-12 col-lg-5">
+      <div class="sidebar">
+
+        <div class="card shadow-sm">
+  <div class="card-body">
+    <h3 class="card-title text-center fw-bold mb-4 gradient-title">
+      Indicadores Clave (KPI’s)
+    </h3>
+
+    <div class="row row-cols-1 row-cols-md-3 g-3 mb-3">
+      <div class="col">
+        <div class="p-3 rounded-3 bg-light text-center tooltip-hover shadow-sm h-100">
+          <p class="mb-1 fw-semibold fs-6 text-black-50">Anomalías</p>
+          <div class="tooltip-text">Cantidad de zonas o momentos con demanda fuera de lo habitual.</div>
+          <h3 id="anomalies" class="mb-0 fw-bold text-danger"></h3>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-3 rounded-3 bg-light text-center tooltip-hover shadow-sm h-100">
+          <p class="mb-1 fw-semibold fs-6 text-black-50">Viajes</p>
+          <div class="tooltip-text">Número total de viajes realizados en la fecha analizada.</div>
+          <h3 id="trips" class="mb-0 fw-bold "></h3>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-3 rounded-3 bg-light text-center tooltip-hover shadow-sm h-100">
+          <p class="mb-1 fw-semibold fs-6 text-black-50">Hora Pico</p>
+          <div class="tooltip-text">Hora del día con mayor concentración de viajes registrados.</div>
+          <h3 id="rush_hour" class="mb-0 fw-bold"></h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+      <div class="col-md-8">
+        <div class="p-3 rounded-3 bg-light text-center tooltip-hover shadow-sm h-100">
+          <p class="mb-1 fw-semibold fs-6 text-black-50">Zona Top</p>
+             <div class="tooltip-text">Zona H3 con mayor concentración de anomalías ese día.</div>
+          <h3 id="hot_location" class="mb-0 fw-bold"></h3>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 rounded-3 bg-light text-center tooltip-hover shadow-sm h-100">
+          <p class="mb-1 fw-semibold fs-6 text-black-50">Variación</p>
+          <div class="tooltip-text">Porcentaje de incremento o caída en la demanda respecto a días anteriores.</div>
+          <h3 id="increased_demand_pct" class="mb-0 fw-bold"></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-4">
+      <h3 class="card-title text-center fw-bold mb-0 gradient-title">
+       Indicadores - Últimos 7 Días
+    </h3>
+  <div class="card-body">
+    <div id="historyEventsContainer">
+      <p class="text-muted">Cargando eventos...</p>
+    </div>
+  </div>
+</div>
+    <!--
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title text-center fw-bold mb-0 gradient-title">Patron</h3>
+        <div class="chart-container">
+          <canvas id="timeSeriesChart"></canvas>
+        </div>
+      </div>
+      </div> -->
+   
+  
+ </div>
+  
+</div>
+
+
+
+      <!-- Footer -->
+    <footer class="py-5">
+        <div class="container">
+          
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="mb-4">
+                              <i class="fas fa-brain me-2"></i>
+                              <span class="fw-bold">Taxi Anomaly Detector</span>
+                    </h4>
+                    <p>Plataforma avanzada para visualización geográfica y detección de anomalías mediante mapas de calor.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                        <a href="https://github.com/MCandia24/anomaly" class="text-white"><i class="fab fa-github fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-4">Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Inicio</a></li>
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Características</a></li>
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Resumen </a></li>
+                        <li><a href="index.html" class="text-white text-decoration-none">Nuestro Equipo</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-4">Recursos</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Documentación</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Blog</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Soporte</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="mb-4">Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i>info@anomalydetector.com</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i>+51 987 347 383</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Lima, Peru</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">© 2025  Taxi Anomaly Detector. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="#" class="text-white text-decoration-none">Privacidad</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-white text-decoration-none">Términos</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-white text-decoration-none">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <!-- Leaflet.heat plugin for heatmaps -->
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <!-- Bootstrap JS for interactive components -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/heatmaps.js"></script>
+</body>
+</html>

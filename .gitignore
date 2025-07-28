@@ -172,3 +172,17 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+#backend
+.venv
+venv
+__pycache__
+.vscode
+docker-compose.yml
+env*.list
+*DS_Store*
+.temp
+
+
+#frontend
+env.js
