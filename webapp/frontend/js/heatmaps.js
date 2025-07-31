@@ -364,51 +364,65 @@ function updateAlertList(data) {
   alertList.innerHTML = '';
 
   if (!Array.isArray(data)) {
-  //  console.warn("⚠️ updateAlertList: 'data' no es un arreglo:", data);
     alertList.innerHTML = '<p class="text-muted">No hay datos de alertas.</p>';
     return;
   }
 
-  // Filtrar y ordenar
-  const sortedAnomalies = [...data]
-    .filter(a => a.level === 'critical' || a.level === 'warning')
-    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-    .slice(0, 10);
+  const anomalies = data.filter(a => a.level === 'critical' || a.level === 'warning');
 
-  if (sortedAnomalies.length === 0) {
+  if (anomalies.length === 0) {
     alertList.innerHTML = '<p class="text-muted">No hay alertas recientes.</p>';
     return;
   }
 
-  sortedAnomalies.forEach(anomaly => {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `anomaly-alert alert ${anomaly.level === 'critical' ? 'alert-danger' : 'alert-warning'} mb-2`;
-
-    const fecha = new Date(anomaly.timestamp);
-
-    const opciones = {
-      weekday: 'long',
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
+  // Agrupar por hora
+  const hourlyCounts = {};
+  anomalies.forEach(anomaly => {
+    const date = new Date(anomaly.timestamp);
+    const hour = date.toLocaleString('en-US', {
       hour: '2-digit',
-      minute: '2-digit',
       hour12: false,
       timeZone: 'America/Lima'
-    };
+    });
 
-    const fechaFormateada = new Intl.DateTimeFormat('es-PE', opciones).format(fecha);
-    const fechaConDel = fechaFormateada.replace(/ de (\d{4})/, ' del $1');
-
-    alertDiv.innerHTML = `
-      <strong class="alert-strong">${anomaly.type}</strong>: <small class="bi bi-calendar-event me-0 text-primary alert-small text-muted"> ${fechaConDel.charAt(0).toUpperCase() + fechaConDel.slice(1)}</small><br>
-     
-    `;
-
-    alertList.appendChild(alertDiv);
+    const hourLabel = `${hour}:00`;
+    hourlyCounts[hourLabel] = (hourlyCounts[hourLabel] || 0) + 1;
   });
-}
 
+  const sortedHours = Object.keys(hourlyCounts).sort((a, b) => parseInt(a) - parseInt(b));
+
+  const totalToShow = 7;
+  let showingAll = false;
+
+  const renderList = (showAll = false) => {
+    alertList.innerHTML = '';
+    const hoursToRender = showAll ? sortedHours : sortedHours.slice(0, totalToShow);
+
+    hoursToRender.forEach(hour => {
+      const hourNum = parseInt(hour);
+      const ampm = hourNum >= 12 ? 'PM' : 'AM';
+      const hourDisplay = (hourNum % 12 === 0 ? 12 : hourNum % 12) + ':00 ' + ampm;
+
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'anomaly-alert alert mb-2';
+      alertDiv.innerHTML = `<strong class="alert-strong">Anomalía:</strong> Hora: ${hourDisplay} – Cantidad: ${hourlyCounts[hour]}`;
+      alertList.appendChild(alertDiv);
+    });
+
+    if (!showAll && sortedHours.length > totalToShow) {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-danger btn-sm w-100';
+      btn.textContent = 'Ver más';
+      btn.onclick = () => {
+        showingAll = true;
+        renderList(true);
+      };
+      alertList.appendChild(btn);
+    }
+  };
+
+  renderList();
+}
 
     /**
      * Flattens any structure and returns up to `max` [lat,lng] pairs.
