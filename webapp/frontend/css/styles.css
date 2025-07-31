@@ -61,6 +61,7 @@
       margin: 5px 0;
       background: #fbedf2;
       border-radius: 5px; /* Rounded corners for alerts */
+      --bs-alert-border-color: #dc3545;
     }
     .warning {
       border-left-color: #ffc107;
