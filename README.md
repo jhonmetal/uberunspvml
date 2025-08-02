@@ -130,11 +130,95 @@ Para dudas o contribuciones, revisa los archivos fuente y la documentación incl
 
 ---
 
-## Buenos Hábitos de Desarrollo
+## 👨‍💻 Buenos Hábitos de Desarrollo
 - Mantener la rama principal (`main`) siempre funcional y documentada  
 - Crear ramas para nuevas funcionalidades o experimentos y generar Pull Requests para revisión de código  
 - Documentar cada módulo y función en el código fuente  
 - Facilitar la reproducción de resultados agregando ejemplos de uso y muestras de datos en el README
+
+---
+
+
+## 🚀 Escalabilidad: Crece con tu Negocio
+
+¿Buscas una solución que acompañe el crecimiento de tu empresa, desde una startup hasta un operador líder en grandes ciudades? Nuestra plataforma está diseñada para escalar tanto horizontal como verticalmente, adaptándose a cualquier volumen de operaciones y permitiendo la integración de nuevas fuentes de datos y algoritmos de detección avanzada sin interrumpir el servicio.
+
+**Ventajas clave para tu negocio:**
+
+- **Expansión sin límites:** La arquitectura hexagonal permite incorporar fácilmente nuevos algoritmos de machine learning, incluyendo inteligencia artificial avanzada y técnicas de conjunto, para anticipar y detectar patrones de demanda y anomalías en tiempo real.
+- **Integración IoT y movilidad:** Conecta sensores de tráfico, sistemas de administración de flotas y diferentes tipos de transporte (bicicletas, motos, transporte público) para una visión 360° de la movilidad urbana.
+- **Adaptación continua:** El sistema evoluciona junto a las necesidades del mercado, permitiendo a tu empresa responder rápidamente a cambios en la demanda, optimizar recursos y mejorar la experiencia del usuario final.
+- **Solución probada:** La combinación de algoritmos de vanguardia, arquitectura robusta y prácticas MLOps garantiza resultados exactos, escalables y mantenibles, listos para ser replicados en cualquier ciudad o contexto de movilidad.
+
+En resumen, nuestra solución no solo resuelve desafíos técnicos, sino que impulsa la innovación y el crecimiento sostenible de tu negocio en el sector de transporte inteligente.
+
+---
+
+
+## 🌟 Futuras Mejoras: Innovación Continua para tu Empresa
+
+¿Quieres ir más allá? Estas son las próximas fronteras que potenciarán aún más el valor de tu operación:
+
+### 1. Big Data y Streaming en Tiempo Real
+Imagina procesar millones de eventos por segundo, provenientes de apps móviles, vehículos y sensores urbanos. Con tecnologías como **Apache Kafka**, tu empresa podrá anticipar tendencias y responder a cambios en la demanda con latencias menores a 100 ms. Esto significa menos viajes perdidos, mayor eficiencia y clientes más satisfechos.
+
+### 2. Integración con Databricks y Analítica Avanzada
+La unión con **Databricks** permitirá análisis predictivo y aprendizaje automático en tiempo real. Gracias a herramientas como **Structured Streaming**, **Delta Live Tables** y **MLflow**, tu equipo podrá automatizar la ingesta, el procesamiento y la gestión de modelos, asegurando resultados confiables y auditables a escala corporativa.
+
+### 3. Microservicios y Escalabilidad Inteligente
+La arquitectura de microservicios ML permitirá escalar cada componente según la demanda, optimizando recursos y costos. Con Kubernetes y balanceadores inteligentes, tu operación estará siempre lista para los picos de demanda, manteniendo la calidad del servicio y la velocidad de respuesta.
+
+**¿El resultado?** Una plataforma lista para el futuro, capaz de integrar nuevas fuentes de datos (clima, precios, tráfico), adaptarse a cualquier ciudad y ofrecer valor logístico en tiempo real a empresas líderes del sector.
+
+---
+
+## 🌐 Arquitectura Futura: Kappa Streaming y MLOps
+La siguiente arquitectura ilustra cómo el sistema puede evolucionar para recibir eventos en tiempo real desde múltiples fuentes, procesar datos con Databricks Streaming y MLOps, e integrar modelos adicionales (clima, precios, tráfico, etc.) para entregar valor logístico en tiempo real.
+
+```mermaid
+flowchart LR
+    subgraph Fuentes_Eventos
+        MOVIL[App Móvil]
+        VEHICULO[Sensores Vehículo]
+        CLIMA[API Clima]
+        TRAFICO[API Tráfico]
+        PRECIOS[API Precios]
+    end
+    subgraph Ingesta
+        KAFKA[Kafka Cluster]
+    end
+    subgraph Procesamiento
+        DATABRICKS[Databricks Streaming]
+        DLT[Delta Live Tables]
+        ML_MODELS[Modelos ML/AI]
+        ANOMALY[Detector Anomalías]
+    end
+    subgraph MLOps
+        MLflow[MLflow Tracking]
+        Unity[Unity Catalog]
+    end
+    subgraph Consumo
+        API_REALTIME[API Real-Time]
+        DASH_EMPRESA[Dashboard Empresa]
+        SISTEMAS[Otros Sistemas Logística]
+    end
+    MOVIL --> KAFKA
+    VEHICULO --> KAFKA
+    CLIMA --> KAFKA
+    TRAFICO --> KAFKA
+    PRECIOS --> KAFKA
+    KAFKA --> DATABRICKS
+    DATABRICKS --> DLT
+    DLT --> ML_MODELS
+    ML_MODELS --> ANOMALY
+    ANOMALY --> API_REALTIME
+    ANOMALY --> DASH_EMPRESA
+    ANOMALY --> SISTEMAS
+    ML_MODELS --> MLflow
+    ML_MODELS --> Unity
+    DLT --> MLflow
+    DLT --> Unity
+```
 
 ---
 
