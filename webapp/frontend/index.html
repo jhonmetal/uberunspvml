@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi Anomaly Detector - Visualización de Anomalías</title>
+    <!-- Bootstrap 5 CSS -->
+
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/landing-page.css">
+    <script src="js/landing_page.js"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Leaflet Heatmap Plugin -->
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+</head>
+<body>
+    <script src="env.js"></script>
+
+    <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <i class="fas fa-brain me-2"></i>
+      <span class="fw-bold">Taxi Anomaly Detector</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="#overview">Resumen</a></li>
+        <li class="nav-item"><a class="nav-link" href="#features">Características</a></li>
+        <li class="nav-item"><a class="nav-link" href="#kpis">Indicadores</a></li>
+        <li class="nav-item"><a class="nav-link" href="#team">Equipo</a></li>
+        <li class="nav-item ms-lg-3 my-2 my-lg-0">
+          <a class="btn btn-warning fw-bold" href="dashboard.html"> <i class="fas fa-map me-2"></i>Ver Mapa de Anomalías</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Hero Section -->
+<section class="hero-section bg-dark text-light py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <!-- Texto -->
+      <div class="col-lg-6 text-center text-lg-start">
+        <h1 class="display-5 fw-bold mb-3">Detección Inteligente de Anomalías en la Demanda de Taxis</h1>
+        <p class="lead mb-4">
+          Analiza picos, caídas y patrones atípicos en los viajes de Uber utilizando mapas de calor interactivos y algoritmos de aprendizaje automático.
+          Nuestra plataforma fusiona datos geoespaciales y modelos sin supervisión para anticipar problemas y optimizar decisiones.
+        </p>
+        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+        <!--  <a href="dashboard.html" class="btn btn-warning btn-lg fw-semibold">
+            <i class="fas fa-map me-2"></i> Ver Mapa de Anomalías
+          </a> -->
+              <a href="dashboard.html" class="btn btn-primary btn-lg">
+                            <i class="fas fa-map me-2"></i>Ver Mapa de Anomalías
+                        </a>
+          <a href="#overview" class="btn btn-outline-light btn-lg">Saber más</a>
+        </div>
+      </div>
+
+      <!-- Mapa -->
+      <div class="col-lg-6 mt-5 mt-lg-0">
+        <a href="dashboard.html" class="text-decoration-none">
+<div id="map" class="rounded shadow overflow-hidden" style="height: 400px;"></div>
+ </a>
+
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Estilo en el head o CSS -->
+
+      <section id="kpis" class="py-5">
+  <div class="container">
+        <div class="card shadow-sm">
+  <div class="card-body">
+<h5 class="card-title text-center fw-bold mb-3 gradient-title">
+  Indicadores Clave de Desempeño (KPIs)
+</h5>
+
+
+    <div class="row g-2">
+      <div class="col-md-3">
+        <div class="stats-card tooltip-hover">
+          <div id="monitor" class="stats-number"></div>
+          <p class="text-muted mb-0">Fecha de Alerta</p>
+            <div class="tooltip-text">Fecha corresponde al periodo de los últimos 7 días en el que se detectaron anomalías en la demanda.</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="stats-card tooltip-hover">
+          <div id="trips" class="stats-number"></div>
+          <p class="text-muted mb-0">Total de Viajes</p>
+          <div class="tooltip-text">Número total de viajes realizados en la fecha analizada.</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="stats-card tooltip-hover">
+          <div id="anomalies" class="stats-number"></div>
+          <p class="text-muted mb-0">Anomalías Detectadas</p>
+          <div class="tooltip-text">Cantidad de zonas o momentos con demanda fuera de lo habitual.</div>
+        </div>
+      </div>
+         <div class="col-md-2">
+        <div class="stats-card tooltip-hover">
+          <div id="hot_location" class="stats-number"></div>
+          <p class="text-muted mb-0">Zona Top</p>
+          <div class="tooltip-text">Zona H3 con mayor concentración de anomalías ese día.</div>
+        </div>
+      </div>
+        <div class="col-md-1">
+        <div class="stats-card tooltip-hover">
+          <div id="rush_hour" class="stats-number"></div>
+          <p class="text-muted mb-0">Hora pico</p>
+          <div class="tooltip-text">Hora del día con mayor concentración de viajes registrados.</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="stats-card tooltip-hover">
+          <div id="increased_demand_pct" class="stats-number"></div>
+          <p class="text-muted mb-0">Variación</p>
+          <div class="tooltip-text">Porcentaje de incremento o caída en la demanda respecto a días anteriores.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+
+
+<!-- Features Section -->
+<section id="features" class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Características Avanzadas</h2>
+      <p class="lead text-muted">Tecnología inteligente para un análisis geoespacial de la demanda de taxis</p>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card card h-100">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3 class="card-title">Detección en Tiempo Real</h3>
+            <p class="card-text">Monitoreo continuo que identifica comportamientos atípicos en la demanda apenas ocurren, permitiendo respuestas rápidas y efectivas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card card h-100">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon">
+              <i class="fas fa-layer-group"></i>
+            </div>
+            <h3 class="card-title">Capas de Visualización Dinámica</h3>
+            <p class="card-text">Visualiza anomalías utilizando mapas de calor, hexágonos H3 y marcadores interactivos que permiten análisis detallado desde múltiples perspectivas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card card h-100">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="card-title">Análisis Temporal</h3>
+            <p class="card-text">Explora tendencias y picos en la demanda a través de un deslizador de fechas, con segmentación por hora, día o semana.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="feature-card card h-100">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon">
+              <i class="bi bi-hexagon-fill"></i>
+            </div>
+            <h3 class="card-title">Geolocalización con H3</h3>
+            <p class="card-text">Agrupación espacial mediante hexágonos geográficos <code>H3</code> que mejora la precisión en la detección y visualización de zonas anómalas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card card h-100">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon">
+              <i class="fas fa-bell"></i>
+            </div>
+            <h3 class="card-title">Alertas Inteligentes</h3>
+            <p class="card-text">Sistema configurable de notificaciones para detectar y reportar en tiempo real eventos críticos en el comportamiento de los viajes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card card h-100">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon">
+              <i class="fas fa-file-download"></i>
+            </div>
+            <h3 class="card-title">Exportación de Resultados</h3>
+            <p class="card-text">Genera reportes automáticos y descarga datasets en formatos compatibles con herramientas como Excel, Python o Power BI.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="gradient-border">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="mb-3">¿Listo para detectar patrones ocultos en tus datos?</h2>
+                        <p class="lead mb-0">Explora nuestro mapa interactivo con visualización multicapas, algoritmos de detección automática de anomalías y análisis geoespacial en tiempo real.
+            Transforma datos crudos en decisiones estratégicas.</p>
+                    </div>
+                    <div class="col-md-4 text-center text-md-end mt-4 mt-md-0">
+                        <a href="dashboard.html" class="btn btn-primary btn-lg px-4">
+                            <i class="fas fa-arrow-right me-2"></i>Explorar Mapa de Anomalías
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<section id="overview" class="about-section bg-light py-5">
+  <div class="container">
+    <div class="text-center mb-3">
+      <h2 class="fw-bold">Resumen del Proyecto</h2>
+      <p class="lead text-muted">Análisis Inteligente de Anomalías en la Demanda de Uber</p>
+    </div>
+
+    <div class="card shadow-lg border-0 p-4">
+      <div class="card-body">
+
+        <p><strong class="text-black">Título:</strong> <em>Detección de Comportamientos Atípicos en la Demanda de Viajes</em></p>
+        
+        <p>
+          Este proyecto utiliza técnicas de <strong>Machine Learning no supervisado</strong> para identificar anomalías en los patrones de demanda de Uber. Su objetivo es anticipar eventos inusuales, optimizar recursos y mejorar la toma de decisiones estratégicas en entornos urbanos.
+        </p>
+
+        <hr class="my-4">
+
+        <h5 class="fw-bold">Objetivos Principales</h5>
+        <ul class="list-unstyled ps-3">
+          <li>- Detectar picos y caídas inesperadas en la demanda.</li>
+          <li>- Identificar posibles fraudes o inconsistencias en los datos de viaje.</li>
+          <li>- Mejorar la asignación de vehículos y estrategias de precios.</li>
+          <li>- Facilitar decisiones basadas en evidencia y patrones reales.</li>
+        </ul>
+
+        <h5 class="fw-bold mt-4">Técnicas y Herramientas</h5>
+        <ul class="list-unstyled ps-3">
+          <li>- Algoritmo: <code>Isolation Forest</code> para detección de outliers.</li>
+          <li>- Datos: <em>Uber Pickups NYC (abril–junio 2014)</em>.</li>
+          <li>- Herramientas: <code>pandas</code>, <code>scikit-learn</code>, <code>bokeh</code>, <code>h3</code>.</li>
+        </ul>
+
+        <h5 class="fw-bold mt-4">Transformación de Datos</h5>
+        <ul class="list-unstyled ps-3">
+          <li>- Agregación horaria y codificación cíclica del tiempo.</li>
+          <li>- Conversión de coordenadas a hexágonos espaciales usando <code>H3</code>.</li>
+          <li>- Visualización de patrones diarios/semanales y anomalías detectadas.</li>
+        </ul>
+
+        <h5 class="fw-bold mt-4">Evaluación del Modelo</h5>
+        <p>
+          El modelo fue validado con métricas específicas para anomalías como <strong>Masa-Volumen</strong> y <strong>Exceso de Masa</strong>, confirmando su capacidad para reconocer comportamientos fuera de lo normal.
+        </p>
+
+        <h5 class="fw-bold mt-4">Futuras Mejores y Escalabilidad</h5>
+        <ul class="list-unstyled ps-3">
+          <li>- Integración con dashboards en tiempo real.</li>
+          <li>- Reentrenamiento continuo con retroalimentación de usuarios.</li>
+          <li>- Interpretabilidad con SHAP y priorización de anomalías críticas.</li>
+          <li>- Expansión hacia datos IoT para mayor granularidad temporal y espacial.</li>
+        </ul>
+       <!--
+        <div class="alert alert-info mt-4" role="alert">
+          Este sistema actúa como un <strong>“sensor inteligente”</strong> de la ciudad: detecta irregularidades antes de que se conviertan en problemas, ayudando a tomar decisiones anticipadas en el transporte urbano.
+        </div>
+--> 
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Nuestro Equipo -->
+<section id="team" class="team-section text-center  mt-3 py-0">
+    <div class="text-center mb-3">
+                <h2 class="fw-bold">Nuestro Equipo</h2>
+                <p class="lead text-muted">Conoce a nuestro equipo</p>
+            </div>
+   
+    <div class="hero-section h-100">
+    <div class="row justify-content-center mt-3 p-3">
+
+      <!-- Integrante 1 -->
+      <div class="col-md-2 col-sm-6 mb-4">
+        <div class="hexagon mx-auto">
+          <img src="images/JPaucaJ.jpg" alt="Jhonathan Pauca">
+        </div>
+        <h5 class="mt-3">Jhonathan Pauca</h5>
+        <p class="small">Me dedico a innovar soluciones que generen valor a través de liderar proyectos y emprendimientos comercialmente viables y que contribuyen al bienestar social y al desarrollo sostenible.</p>
+      </div>
+
+      <!-- Integrante 2 -->
+      <div class="col-md-2 col-sm-6 mb-4">
+        <div class="hexagon mx-auto">
+          <img src="images/melissa.png" alt="Melissa Rodriguez">
+        </div>
+        <h5 class="mt-3">Melissa Rodriguez</h5>
+        <p class="small">Me dedico a analizar y desarrollar soluciones que le den valor a las áreas de negocio.</p>
+      </div>
+
+      <!-- Integrante 3 -->
+      <div class="col-md-2 col-sm-6 mb-4">
+        <div class="hexagon mx-auto">
+          <img src="images/heber.jpg" alt="Heber Hualpa">
+        </div>
+        <h5 class="mt-3">Heber Hualpa</h5>
+        <p class="small">Me dedico a soluciones de infraestructura.</p>
+      </div>
+
+      <!-- Integrante 4 -->
+      <div class="col-md-2 col-sm-6 mb-4">
+        <div class="hexagon mx-auto">
+          <img src="images/fernando.png" alt="Fernando Flores">
+        </div>
+        <h5 class="mt-3">Fernando Flores</h5>
+        <p class="small">Me dedico a desarrollar soluciones informáticas en el área de Gestión medioambiental, soy emprendedor y docente en Ingeniería Electrónica en pregrado.</p>
+      </div>
+
+      <!-- Integrante 5 -->
+      <div class="col-md-2 col-sm-6 mb-4">
+        <div class="hexagon mx-auto">
+          <img src="images/marco.jpg" alt="Marco Candia">
+        </div>
+        <h5 class="mt-3">Marco Candia</h5>
+        <p class="small">Me dedico al desarrollo de software y tecnologías de la información (TI).</p>
+      </div>
+
+  </div>
+        
+    </div>
+    
+</section>
+
+
+    <!-- Footer -->
+    <footer class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="mb-4">
+                              <i class="fas fa-brain me-2"></i>
+      <span class="fw-bold">Taxi Anomaly Detector</span>
+                    </h4>
+                    <p>Plataforma avanzada para visualización geográfica y detección de anomalías mediante mapas de calor.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                        <a href="https://github.com/MCandia24/anomaly" class="text-white"><i class="fab fa-github fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-4">Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Inicio</a></li>
+                        <li class="mb-2"><a href="#features" class="text-white text-decoration-none">Características</a></li>
+                        <li class="mb-2"><a href="#overview" class="text-white text-decoration-none">Resumen </a></li>
+                        <li><a href="#team" class="text-white text-decoration-none">Nuestro Equipo</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-4">Recursos</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Documentación</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Blog</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Soporte</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="mb-4">Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i>info@anomalydetector.com</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i>+51 987 347 383</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Lima, Peru</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">© 2025  Taxi Anomaly Detector. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="#" class="text-white text-decoration-none">Privacidad</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-white text-decoration-none">Términos</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-white text-decoration-none">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+      <!-- Scripts al final del body -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

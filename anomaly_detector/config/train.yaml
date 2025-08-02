@@ -1,0 +1,15 @@
+model:
+  hex_resolution: 7
+  rolling_window: 168
+  model_features:
+    - value
+    - Lag
+    - Rolling_Mean
+    - hour_sin
+    - hour_cos
+    - dow_sin
+    - month_sin
+    - month_cos
+  contamination: 0.22
+  n_estimators: 50
+  max_samples: 0.25

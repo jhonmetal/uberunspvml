@@ -1,0 +1,20 @@
+layers:
+  bronze:
+    description: "Raw JSON to parquet, partitioned by date_code=YYYY-MM-DD"
+    partition_cols:
+      - date_code
+    path: "trips_uber_bronze"
+  silver:
+    description: "Cleansed & joined data, partitioned by type_code"
+    partition_cols:
+      - type_code
+    path: "trips_uber_silver"
+  gold:
+    description: "Aggregates & features, optimized for query performance, partitioned by type_code and date_code"
+    partition_cols:
+      - type_code
+      - date_code
+    path: "trips_uber"
+  gold_summary:
+    description: "Summarized data for quick access, partitioned by type_code and date_code"
+    path: "trips_uber_summary"

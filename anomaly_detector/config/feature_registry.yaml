@@ -1,0 +1,57 @@
+features:
+  - name: value
+    description: "Hourly trip count per H3 cell"
+    source_module: "feature_engineering.py"
+    created_at: "2025-07-24"
+    version: "v1"
+  - name: Lag
+    description: "Previous hour's trip count (lag feature)"
+    source_module: "feature_engineering.py"
+    created_at: "2025-07-24"
+    version: "v1"
+  - name: Rolling_Mean
+    description: "Rolling mean of trip count over window"
+    source_module: "feature_engineering.py"
+    created_at: "2025-07-24"
+    version: "v1"
+  - name: hour_sin
+    description: "Cyclic encoding of hour (sin)"
+    source_module: "feature_engineering.py"
+    created_at: "2025-07-24"
+    version: "v1"
+  - name: hour_cos
+    description: "Cyclic encoding of hour (cos)"
+    source_module: "feature_engineering.py"
+    created_at: "2025-07-24"
+    version: "v1"
+  - name: dow_sin
+    description: "Cyclic encoding of day of week (sin)"
+    source_module: "feature_engineering.py"
+    created_at: "2025-07-24"
+    version: "v1"
+  - name: month_sin
+    description: "Cyclic encoding of month (sin)"
+    source_module: "feature_engineering.py"
+    created_at: "2025-07-24"
+    version: "v1"
+  - name: month_cos
+    description: "Cyclic encoding of month (cos)"
+    source_module: "feature_engineering.py"
+    created_at: "2025-07-24"
+    version: "v1"
+schemas:
+  - name: BatchPredictRequest
+    file: "domain/models.py"
+    version: "v1"
+  - name: BatchPredictResponse
+    file: "domain/models.py"
+    version: "v1"
+  - name: HealthResponse
+    file: "domain/models.py"
+    version: "v1"
+  - name: ModelInfoResponse
+    file: "domain/models.py"
+    version: "v1"
+  - name: MetricsResponse
+    file: "domain/models.py"
+    version: "v1"

@@ -1,0 +1,27 @@
+## Core Data & ML
+pandas
+numpy
+pyarrow
+h3
+folium
+ipywidgets
+mlflow
+scikit-learn
+geopandas
+shapely
+matplotlib
+boto3
+pyngrok
+pydantic
+
+## API & Web
+fastapi
+starlette
+uvicorn
+requests
+PyYAML
+prometheus_client
+streamlit
+streamlit-folium
+plotly
+PyJWT

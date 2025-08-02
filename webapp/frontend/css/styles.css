@@ -1,0 +1,290 @@
+  body {
+      margin: 0;
+      font-family: 'Inter', sans-serif; /* Using Inter font for a modern look */
+    }
+
+
+    .header {
+      background: #0172e2;
+      color: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-bottom-left-radius: 10px; /* Rounded corners for the header */
+      border-bottom-right-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .dashboard-container {
+      display: grid;
+      /*grid-template-columns: 1.5fr 1fr;*/
+      height: calc(100vh - 72px); /* Adjust height based on header */
+      gap: 20px; /* Spacing between map and sidebar */
+      /* padding: 0 20px 20px 20px; /* Padding around the dashboard */
+    }
+    .map-container {
+      position: relative;
+      border-radius: 10px; /* Rounded corners for map container */
+      overflow: hidden; /* Ensures map content respects border-radius */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+#map {
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+}
+
+    .sidebar {
+      padding: 20px;
+      background: white;
+      overflow-y: auto;
+      border-radius: 10px; /* Rounded corners for sidebar */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card {
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .card-body {
+    flex: 1 1 auto;
+    padding: 5px;
+    color: var(--bs-card-color);
+}
+    .chart-container {
+      height: 200px;
+      position: relative;
+    }
+    .anomaly-alert {
+      border-left: 5px solid #dc3545;
+      padding: 5px;
+      margin: 5px 0;
+      background: #fbedf2;
+      border-radius: 5px; /* Rounded corners for alerts */
+      --bs-alert-border-color: #dc3545;
+    }
+    .warning {
+      border-left-color: #ffc107;
+      background: #fff3cd;
+    }
+    .resolved { /* This class is currently not used but kept for consistency */
+      border-left-color: #28a745;
+      background: #d4edda;
+    }
+    .controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+      background: white;
+      padding: 15px; /* Increased padding */
+      border-radius: 8px; /* More rounded corners */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      display: flex; /* Use flexbox for control layout */
+      flex-direction: column;
+      gap: 10px; /* Spacing between controls */
+    }
+    .controls div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .controls label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    .controls input[type="range"],
+    .controls input[type="date"] {
+      width: 100%;
+      border-radius: 5px; /* Rounded corners for inputs */
+      padding: 5px;
+      border: 1px solid #ddd;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+        .stats-filter {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 5px; /* Rounded buttons */
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+        height: auto; /* Allow height to adjust */
+        padding: 10px;
+      }
+      .map-container {
+        height: 60vh; /* Give map a fixed height on mobile */
+      }
+      .sidebar {
+        padding: 10px;
+      }
+      .controls {
+        position: static; /* Make controls flow naturally */
+        margin-top: 10px;
+        box-shadow: none;
+        padding: 0;
+        background: none;
+        flex-direction: row; /* Controls in a row on smaller screens */
+        flex-wrap: wrap; /* Wrap controls if needed */
+        justify-content: center;
+      }
+      .controls div {
+        flex-grow: 1; /* Allow controls to grow */
+      }
+    }
+
+  
+  .title-responsive {
+    font-size: 1.25rem; /* base para móviles (equivale a h5) */
+  }
+
+  @media (min-width: 768px) {
+    .title-responsive {
+      font-size: 2rem; /* md (tablet) */
+    }
+  }
+
+  @media (min-width: 992px) {
+    .title-responsive {
+      font-size: 2rem; /* lg */
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .title-responsive {
+      font-size: 2rem; /* xl (como h1 real) */
+    }
+  }
+
+
+
+           .hero-section {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-range {
+  width: 100px;
+  background: transparent; /* Evitamos conflicto con track */
+  appearance: none;
+  height: 6px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* Track para WebKit (Chrome, Safari) */
+.custom-range::-webkit-slider-runnable-track {
+  height: 6px;
+  background: linear-gradient(135deg, #1a2980, #26d0ce);
+  border-radius: 5px;
+}
+
+/* Pulgar para WebKit */
+.custom-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 2px solid #1a2980;
+  border-radius: 50%;
+  margin-top: -5px;
+  cursor: pointer;
+}
+
+/* Track para Firefox */
+.custom-range::-moz-range-track {
+  height: 6px;
+  background: linear-gradient(135deg, #1a2980, #26d0ce);
+  border-radius: 5px;
+}
+
+/* Pulgar para Firefox */
+.custom-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 2px solid #1a2980;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.gradient-title {
+  background: linear-gradient(135deg, #1a2980, #26d0ce);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* para compatibilidad */
+  text-emphasis-color: transparent;
+}
+
+.anomaly-alert:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+} 
+
+.alert-small {
+    font-size: 0.9rem;
+}
+.alert-strong {
+    font-weight: bolder;
+    font-size: .9rem;
+}
+
+/* Tooltip */
+.tooltip-hover {
+  position: relative;
+  cursor: help;
+  /*display: inline-block;*/
+}
+
+.tooltip-hover .tooltip-text {
+  visibility: hidden;
+  background-color: var(--dark);
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 8px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -110px;
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+  width: 220px;
+  font-size: 0.85rem;
+  line-height: 1.2rem;
+}
+
+.tooltip-hover:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
