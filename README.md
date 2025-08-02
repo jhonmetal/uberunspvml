@@ -130,7 +130,7 @@ Para dudas o contribuciones, revisa los archivos fuente y la documentación incl
 
 ---
 
-## Buenos Hábitos de Desarrollo
+## 👨‍💻 Buenos Hábitos de Desarrollo
 - Mantener la rama principal (`main`) siempre funcional y documentada  
 - Crear ramas para nuevas funcionalidades o experimentos y generar Pull Requests para revisión de código  
 - Documentar cada módulo y función en el código fuente  
@@ -138,23 +138,41 @@ Para dudas o contribuciones, revisa los archivos fuente y la documentación incl
 
 ---
 
-## Escalabilidad
-Adoptando arquitecturas modernas facilita alcanzar niveles de escalabilidad horizontal y vertical para mejorar la adaptación a diferentes tamaño de operaciones, desde pequeñas startups hasta operadores de gran magnitud en servicios de taxi por aplicativo en grandes ciudades. La estructura hexagonal permite a futuro la incorporación de nuevos algoritmos de detección, que incluyen métodos de aprendizaje profundo y técnicas de conjunto, sin alterar las operaciones ya establecidas, esto puede ser de utilidad para la integración con sistemas de Internet de las Cosas incorporarando datos obtenidos de sensores de tráfico, la conexión con sistemas de administración de flotas, y la adaptación a diferentes formas de transporte (bicicletas, motocicletas, transporte público). Esta capacidad de adaptación arquitectónica sitúa al sistema como un caso de uso robusto para la evolución continua de las necesidades de movilidad en la ciudad. 
-En resumen, nuestro proyecto demuestra que la adopción de técnicas avanzadas de ML, el uso de estructuras arquitectónicas modernas y la adopción de métodos operacionales innovadores se pueden aplicar con éxito a un sector crucial como del de transporte de taxi por aplicación en urbes de tráfico masivo. La combinación sinérgica del algoritmo Isolation Forest, la estructura hexagonal, los fundamentos de DDD y las técnicas MLOps produce una solución integral que no solo atiende problemas técnicos específicos, sino que también establece un esquema de trabajo replicable para futuras innovaciones en sistemas de transporte inteligente. En resumen, podemos afirmar que la contribución principal se enfoca en demostrar que la integración detallada de estas tecnologías y metodologías puede producir sistemas de identificación de anomalías que al mismo tiempo son exactos, escalables, mantenibles y operativamente factibles para aplicaciones esenciales de transporte urbano en el entorno real, y que han sido desarrolladas en clase durante el semestre.
+
+## 🚀 Escalabilidad: Crece con tu Negocio
+
+¿Buscas una solución que acompañe el crecimiento de tu empresa, desde una startup hasta un operador líder en grandes ciudades? Nuestra plataforma está diseñada para escalar tanto horizontal como verticalmente, adaptándose a cualquier volumen de operaciones y permitiendo la integración de nuevas fuentes de datos y algoritmos de detección avanzada sin interrumpir el servicio.
+
+**Ventajas clave para tu negocio:**
+
+- **Expansión sin límites:** La arquitectura hexagonal permite incorporar fácilmente nuevos algoritmos de machine learning, incluyendo inteligencia artificial avanzada y técnicas de conjunto, para anticipar y detectar patrones de demanda y anomalías en tiempo real.
+- **Integración IoT y movilidad:** Conecta sensores de tráfico, sistemas de administración de flotas y diferentes tipos de transporte (bicicletas, motos, transporte público) para una visión 360° de la movilidad urbana.
+- **Adaptación continua:** El sistema evoluciona junto a las necesidades del mercado, permitiendo a tu empresa responder rápidamente a cambios en la demanda, optimizar recursos y mejorar la experiencia del usuario final.
+- **Solución probada:** La combinación de algoritmos de vanguardia, arquitectura robusta y prácticas MLOps garantiza resultados exactos, escalables y mantenibles, listos para ser replicados en cualquier ciudad o contexto de movilidad.
+
+En resumen, nuestra solución no solo resuelve desafíos técnicos, sino que impulsa la innovación y el crecimiento sostenible de tu negocio en el sector de transporte inteligente.
 
 ---
 
-## Futuras Mejoras
-- **Cambio a una arquitectura de big data y transmisión en tiempo real.**
-  La posibilidad de escalar aplicaciones de ML hacia big data es fundamental; por tanto, la incorporación de soluciones que permitan gestionar voluminosas cantidades en tiempo real debe ser considerada. Apache Kafka es una solución de código abierto que permite manejar millones de eventos, ofreciendo habilidades para consumir datos con latencias menores a 100 ms. Una arquitectura sugerida abarcaría: productores Kafka incorporados en aplicativos móviles y sistemas en vehículos que puedan publicar eventos de localización, inicio/fin de viaje y métricas operativas; consumidores expertos que manejan flujo de datos para diversas situaciones de uso así como sistemas de almacenamiento distribuido utilizando tecnologías como Apache HDFS o Delta Lake.
-- **Integración con Databricks**
-  La incorporación de Databricks como plataforma unificada de análisis y aprendizaje automático significaría un avance cualitativo en las habilidades del sistema Databricks Structured Streaming (DSS) facilita el manejo de flujo de datos con latencias de cientos de milisegundos, habilitando la detección de anomalías en tiempo real. Elementos como Auto Loader para la automatización de la ingesta incremental desde fuentes de datos variables, Delta Live Tables (DLT) para la creación de líneas de datos declarativas que gestionan tanto datos en batch como en streaming, MLflow integrado para la administración integral del ciclo de vida de modelos, desde la experimentación hasta la implementación en producción, así como Unity Catalog para la gestión de datos y modelos a nivel corporativo.
-- **Técnicas Avanzadas de Escalabilidad del Modelo**
-  La evolución hacia arquitecturas de microservicios permitiría escalabilidad granular de diferentes componentes del sistema de detección de anomalías. La implementación de una arquitectura de microservicios ML permite el escalamiento independiente de servicios de ingreso de datos, procesamiento e inferencia según demanda específica. Como estrategias de escalabilidad tendríamos: escalamiento horizontal automático mediante Kubernetes Horizontal Pod Autoscaler (HPA) para manejar picos de demanda; escalamiento vertical dinámico usando Vertical Pod Autoscaler (VPA) para modelos que requieren recursos computacionales intensivos; distribución de carga inteligente mediante balanceadores que consideran la capacidad específica de cada instancia de modelo, así como optimización de runtime usando runtimes de alto rendimiento como TensorRT u ONNX Runtime para reducir latencias de inferencia.
+
+## 🌟 Futuras Mejoras: Innovación Continua para tu Empresa
+
+¿Quieres ir más allá? Estas son las próximas fronteras que potenciarán aún más el valor de tu operación:
+
+### 1. Big Data y Streaming en Tiempo Real
+Imagina procesar millones de eventos por segundo, provenientes de apps móviles, vehículos y sensores urbanos. Con tecnologías como **Apache Kafka**, tu empresa podrá anticipar tendencias y responder a cambios en la demanda con latencias menores a 100 ms. Esto significa menos viajes perdidos, mayor eficiencia y clientes más satisfechos.
+
+### 2. Integración con Databricks y Analítica Avanzada
+La unión con **Databricks** permitirá análisis predictivo y aprendizaje automático en tiempo real. Gracias a herramientas como **Structured Streaming**, **Delta Live Tables** y **MLflow**, tu equipo podrá automatizar la ingesta, el procesamiento y la gestión de modelos, asegurando resultados confiables y auditables a escala corporativa.
+
+### 3. Microservicios y Escalabilidad Inteligente
+La arquitectura de microservicios ML permitirá escalar cada componente según la demanda, optimizando recursos y costos. Con Kubernetes y balanceadores inteligentes, tu operación estará siempre lista para los picos de demanda, manteniendo la calidad del servicio y la velocidad de respuesta.
+
+**¿El resultado?** Una plataforma lista para el futuro, capaz de integrar nuevas fuentes de datos (clima, precios, tráfico), adaptarse a cualquier ciudad y ofrecer valor logístico en tiempo real a empresas líderes del sector.
 
 ---
 
-## Arquitectura Futura: Kappa Streaming y MLOps
+## 🌐 Arquitectura Futura: Kappa Streaming y MLOps
 La siguiente arquitectura ilustra cómo el sistema puede evolucionar para recibir eventos en tiempo real desde múltiples fuentes, procesar datos con Databricks Streaming y MLOps, e integrar modelos adicionales (clima, precios, tráfico, etc.) para entregar valor logístico en tiempo real.
 
 ```mermaid
