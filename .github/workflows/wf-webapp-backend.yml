@@ -3,8 +3,8 @@ name: Deploy Backend
 on:
   push:
     branches: 
+      - develop
       - main
-      - feature/webapp
     paths:
       - 'webapp/**' 
 
